@@ -1,0 +1,14 @@
+name: FootballWeather
+title: FootballWeather
+username:
+account: sawyerjohnson-caesars
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6944042
+bundleId: 6279011
+url: https://sawyerjohnson-caesars.shinyapps.io/FootballWeather/
+when: 1662578757.193
+lastSyncTime: 1662578757.19301
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|Complete.Script.R|github_token.R

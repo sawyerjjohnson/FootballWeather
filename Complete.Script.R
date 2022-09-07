@@ -26,6 +26,11 @@
   library(stringr)
   library(jsonlite)
   library(scales)
+  library(shiny)
+  library(shinydashboard)
+  library(DT)
+  library(rsconnect)
+  library(reticulate)
   
   
   Sys.setenv(CFBD_API_KEY = "yJvtYxIrByWfpgPo/qasS5h82oeY86W1BJ4Rl1SZu8L0mazSR1gBR76pacK7CTF9")
@@ -605,12 +610,14 @@
     select(c('gn','competition', 'lv.start.time', 'matchup', 'stadium', 'city','surface', 'roof', 'temp':'condition'),)
   
   
-  # Change Competition Title to Update Time #
+  # Make Competition Column Name System Time #
   temp.col <- as.character(Sys.time())
-
   colnames(weekly.games.df)[2] <- temp.col
-  
     
+  # Make Data Table #
+  weekly.games.df <- data.frame(weekly.games.df)
+  
+  
 }
 
 
@@ -620,8 +627,5 @@
   write.xlsx(weekly.games.df, 'weeklyweather.xlsx')
   
 }
-
-
-
 
 
