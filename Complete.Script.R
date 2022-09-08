@@ -1,6 +1,5 @@
 
 
-
 # Load Packages #
 {
   
@@ -330,12 +329,18 @@
   # Remove Duplicate Rows #
   football.schedule <- football.schedule %>% distinct()
   
+  # Write To Excel #
+  write.xlsx(football.schedule, 'football.schedule.xlsx')
   
 }
 
 
 # Create Weekly Schedule #
 {
+  
+  # Read Excel #
+  football.schedule <- read_excel('football.schedule.xlsx')
+  
   
   football.weekly <- football.schedule %>% 
     filter(lv.start.time < (Sys.Date() + 7) & lv.start.time > Sys.Date())
@@ -514,13 +519,14 @@
     )
   
   
-  
   # Find Difference In Times #
   weekly.games.df <- weekly.games.df %>% 
     mutate(
       
       diff.start.time = as.numeric(abs(difftime(game.time, time, units = 'mins'))),
-      diff.half.time = as.numeric(abs(difftime(half.time, time, units = 'mins')))
+      diff.half.time = as.numeric(abs(difftime(half.time, time, units = 'mins'))),
+      diff.start.time = round(diff.start.time, digits = 2),
+      diff.half.time = round(diff.half.time, digits = 2)
       
     )
   
@@ -572,6 +578,19 @@
     arrange(ln, gn)
   
   
+  # Change GN Names #
+  for(i in 1:nrow(weekly.games.df)){
+    if(i %% 2 != 0){
+      
+      weekly.games.df$gn[i] <- paste('start_', weekly.games.df$gn[i])
+      weekly.games.df$gn[i+1] <- paste('half_', weekly.games.df$gn[i+1])
+      
+      
+    }
+  }
+  
+  
+  
   # Remove Even Row Column Entries #
   for(i in 1:nrow(weekly.games.df)){
     if(i %% 2 == 0){
@@ -613,7 +632,7 @@
   # Make Competition Column Name System Time #
   temp.col <- as.character(Sys.time())
   colnames(weekly.games.df)[2] <- temp.col
-    
+  
   # Make Data Table #
   weekly.games.df <- data.frame(weekly.games.df)
   
